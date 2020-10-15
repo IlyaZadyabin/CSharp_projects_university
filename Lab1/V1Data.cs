@@ -2,10 +2,8 @@
 
 namespace Lab1
 {
-    public abstract class V1Data
-    {
-        public V1Data(string info_, DateTime date_)
-        {
+    public abstract class V1Data {
+        public V1Data(string info_, DateTime date_) {
             info = info_;
             date = date_;
         }
@@ -14,8 +12,7 @@ namespace Lab1
         public string info { get; set; }
         public DateTime date { get; set; }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return info.ToString() + " " + date.ToString();
         }
     }

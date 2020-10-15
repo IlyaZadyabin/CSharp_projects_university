@@ -4,14 +4,11 @@ using System.Numerics;
 
 namespace Lab1
 {
-    public class V1DataCollection : V1Data
-    {
-        public V1DataCollection(string str_, DateTime date_) : base(str_, date_) { }
-        public void InitRandom(int nItems, float tmin, float tmax, float minValue, float maxValue)
-        {
+    public class V1DataCollection : V1Data {
+        public V1DataCollection(string str_, DateTime date_) : base(str_, date_) {}
+        public void InitRandom(int nItems, float tmin, float tmax, float minValue, float maxValue) {
             Random random = new System.Random();
-            for (int i = 0; i < nItems; i++)
-            {
+            for (int i = 0; i < nItems; i++) {
                 DataItem tmp = new DataItem();
                 tmp.t = (float)random.NextDouble() * (tmax - tmin);
                 tmp.vec = new Vector3(
@@ -22,17 +19,14 @@ namespace Lab1
                 list.Add(tmp);
             }
         }
-        public override float[] NearZero(float eps)
-        {
+        public override float[] NearZero(float eps) {
             float[] nodes = new float[list.Count];
             int length = 0;
-            for (int i = 0; i < list.Count; i++)
-            {
+            for (int i = 0; i < list.Count; i++) {
                 float tmp = (float)Math.Sqrt(list[i].vec.X * list[i].vec.X
                                                 + list[i].vec.Y * list[i].vec.Y
                                                 + list[i].vec.Z * list[i].vec.Z);
-                if (tmp < eps)
-                {
+                if (tmp < eps) {
                     nodes[length++] = list[i].t;
                 }
             }
@@ -42,19 +36,16 @@ namespace Lab1
             return ans;
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return "V1DataCollection" + " " + base.ToString() + " " + list.Count.ToString();
         }
-        public override string ToLongString()
-        {
-            string str = this.ToString();
-            for (int i = 0; i < list.Count; i++)
-            {
-                str += list[i].ToString();
+        public override string ToLongString() {
+            string str = ToString() + Environment.NewLine;
+            for (int i = 0; i < list.Count; i++) {
+                str += list[i].ToString() + Environment.NewLine;
             }
             return str;
         }
-        List<DataItem> list { get; set; } = new List<DataItem>();
+        public List<DataItem> list { get; set; } = new List<DataItem>();
     }
 }

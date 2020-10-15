@@ -4,27 +4,21 @@ using System.Collections;
 
 namespace Lab1
 {
-    public class V1MainCollection : IEnumerable<V1Data>
-    {
-        public int Count
-        {
-            get
-            {
+    public class V1MainCollection : IEnumerable<V1Data> {
+        public int Count {
+            get {
                 return list.Count;
             }
         }
-        public void Add(V1Data item)
-        {
+        public void Add(V1Data item) {
             list.Add(item);
         }
-        public bool Remove(string id, DateTime dateTime)
-        {
+        public bool Remove(string id, DateTime dateTime) {
             int cnt_before_removal = list.Count;
             list.RemoveAll(item => ((item.info == id) && (item.date == dateTime)));
             return cnt_before_removal != list.Count;
         }
-        public void AddDefaults()
-        {
+        public void AddDefaults() {
             DateTime time = new DateTime(2008, 5, 1, 8, 30, 52);
             Grid grid = new Grid(0, 1, 4);
             V1DataCollection col1 = new V1DataCollection("col1", time);
@@ -42,49 +36,39 @@ namespace Lab1
             list.Add(grid1);
             list.Add(grid2);
         }
-        public override string ToString()
-        {
+        public override string ToString() {
             var sb = new System.Text.StringBuilder();
-            for (int i = 0; i < list.Count; i++)
-            {
+            for (int i = 0; i < list.Count; i++) {
                 sb.AppendLine(list[i].ToString());
             }
             return sb.ToString();
         }
-        public IEnumerator<V1Data> GetEnumerator()
-        {
+        public IEnumerator<V1Data> GetEnumerator() {
             return this.list.GetEnumerator();
         }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+        IEnumerator IEnumerable.GetEnumerator() {
             return this.GetEnumerator();
         }
-        public object Current
-        {
-            get
-            {
+        public object Current {
+            get {
                 if (position == -1 || position >= list.Count)
                     throw new InvalidOperationException();
                 return list[position];
             }
         }
-        public bool MoveNext()
-        {
-            if (position < list.Count - 1)
-            {
+        public bool MoveNext() {
+            if (position < list.Count - 1) {
                 position++;
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
-        public void Reset()
-        {
+        public void Reset() {
             position = -1;
         }
+
         int position = -1;
-        List<V1Data> list = new List<V1Data>();
+        private List<V1Data> list = new List<V1Data>();
     }
 }
