@@ -24,9 +24,9 @@ namespace Lab1
             for (int i = 0; i < grid.amount_of_nodes; i++)
             {
                 arr[i] = new Vector3(
-                                        (float)random.NextDouble() * range,
-                                        (float)random.NextDouble() * range,
-                                        (float)random.NextDouble() * range
+                                        minValue + (float)random.NextDouble() * range,
+                                        minValue + (float)random.NextDouble() * range,
+                                        minValue + (float)random.NextDouble() * range
                                     );
             }
         }

@@ -10,11 +10,11 @@ namespace Lab1
             Random random = new System.Random();
             for (int i = 0; i < nItems; i++) {
                 DataItem tmp = new DataItem();
-                tmp.t = (float)random.NextDouble() * (tmax - tmin);
+                tmp.t = tmin + (float)random.NextDouble() * (tmax - tmin);
                 tmp.vec = new Vector3(
-                                        (float)random.NextDouble() * (maxValue - minValue),
-                                        (float)random.NextDouble() * (maxValue - minValue),
-                                        (float)random.NextDouble() * (maxValue - minValue)
+                                        minValue + (float)random.NextDouble() * (maxValue - minValue),
+                                        minValue + (float)random.NextDouble() * (maxValue - minValue),
+                                        minValue + (float)random.NextDouble() * (maxValue - minValue)
                                     );
                 list.Add(tmp);
             }

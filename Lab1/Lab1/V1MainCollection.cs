@@ -49,26 +49,7 @@ namespace Lab1
         IEnumerator IEnumerable.GetEnumerator() {
             return this.GetEnumerator();
         }
-        public object Current {
-            get {
-                if (position == -1 || position >= list.Count)
-                    throw new InvalidOperationException();
-                return list[position];
-            }
-        }
-        public bool MoveNext() {
-            if (position < list.Count - 1) {
-                position++;
-                return true;
-            } else {
-                return false;
-            }
-        }
-        public void Reset() {
-            position = -1;
-        }
 
-        int position = -1;
         private List<V1Data> list = new List<V1Data>();
     }
 }
