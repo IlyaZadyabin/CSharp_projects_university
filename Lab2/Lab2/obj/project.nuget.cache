@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GXUgbpxEtGSY1BWmVoYkPiNG1LDLRllnDMe4doYxB0sBFLhN587c7u0bQ1fGRdDliJtFhgqBDZdmi/BhFYNeUA==",
+  "dgSpecHash": "tSV2600qEHgqB3eVcdWOSBat3Bv6u2fHy8NrHnuTwpgDiR0XQnY2ILpGxist6QegzKg9CIqp5mqwsA3sxCd6xg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\zilya\\source\\repos\\Lab2\\Lab2\\Lab2.csproj",
+  "projectFilePath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab2\\Lab2\\Lab2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zilya\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\zilya\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",

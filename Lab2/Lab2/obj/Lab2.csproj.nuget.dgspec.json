@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zilya\\source\\repos\\Lab2\\Lab2\\Lab2.csproj": {}
+    "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab2\\Lab2\\Lab2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\zilya\\source\\repos\\Lab2\\Lab2\\Lab2.csproj": {
+    "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab2\\Lab2\\Lab2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zilya\\source\\repos\\Lab2\\Lab2\\Lab2.csproj",
+        "projectUniqueName": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab2\\Lab2\\Lab2.csproj",
         "projectName": "Lab2",
-        "projectPath": "C:\\Users\\zilya\\source\\repos\\Lab2\\Lab2\\Lab2.csproj",
+        "projectPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab2\\Lab2\\Lab2.csproj",
         "packagesPath": "C:\\Users\\zilya\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zilya\\source\\repos\\Lab2\\Lab2\\obj\\",
+        "outputPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab2\\Lab2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\zilya\\AppData\\Roaming\\NuGet\\NuGet.Config",

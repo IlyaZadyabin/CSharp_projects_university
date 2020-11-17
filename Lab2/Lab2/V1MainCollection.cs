@@ -82,7 +82,7 @@ namespace Lab2
                              from v1DataItem in v1DataCollection
                              select v1DataItem;
 
-                var query2 = from v1DataOnGrid in list.OfType<V1DataOnGrid>() //Implicit conversion in V1DataOnGrid GetEnuminator()
+                var query2 = from v1DataOnGrid in list.OfType<V1DataOnGrid>() //Implicit conversion from V1DataOnGrid to DataItem in V1DataOnGrid GetEnuminator()
                              from v1DataItem in v1DataOnGrid
                              select v1DataItem;
 
