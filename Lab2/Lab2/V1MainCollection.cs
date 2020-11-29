@@ -64,14 +64,15 @@ namespace Lab2
 
         public int GetMaxAmount {
             get {
-                int amount1 = ( from v1DataCollection in list.OfType<V1DataCollection>()
-                                from v1DataItem in v1DataCollection
-                                select v1DataItem
+                int amount1 = (from v1DataCollection in list.OfType<V1DataCollection>()
+                               where v1DataCollection.list.Count != 0
+                               select v1DataCollection
                               ).Count();
 
                 int amount2 = ( from v1DataOnGrid in list.OfType<V1DataOnGrid>()
-                                select v1DataOnGrid.grid.amount_of_nodes
-                              ).Sum();
+                                where v1DataOnGrid.grid.amount_of_nodes != 0
+                                select v1DataOnGrid
+                              ).Count();
 
                 return amount1 + amount2;
             }
@@ -100,7 +101,9 @@ namespace Lab2
                 var query2 = from dataItem in query1
                              select dataItem.t;
 
-                return query2.Distinct();
+                return from g in query2.GroupBy(x => x)
+                       where g.Count() == 1
+                       select g.First();
             }
         }
         private List<V1Data> list = new List<V1Data>();

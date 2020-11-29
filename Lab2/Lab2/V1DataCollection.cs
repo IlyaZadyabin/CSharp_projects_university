@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Numerics;
+using System.Globalization;
 
 namespace Lab2
 {
@@ -9,15 +10,18 @@ namespace Lab2
         public V1DataCollection(string str_, DateTime date_) : base(str_, date_) {}
 
         // info
-        // date
-        // time x,y,z
-        // time x,y,z
+        // date         ru-RU type
+        // time x,y,z   en-US type
+        // time x,y,z   en-US type
         // ...
         public V1DataCollection(string filename) : base("", new DateTime()) {
             try {
+                CultureInfo cultureInfo_ruRU = new CultureInfo("ru-RU");
+                CultureInfo cultureInfo_enUS = new CultureInfo("en-US");
+
                 string[] lines = System.IO.File.ReadAllLines(filename);
                 info = lines[0];
-                date = Convert.ToDateTime(lines[1]);
+                date = Convert.ToDateTime(lines[1], cultureInfo_ruRU);
 
                 for (int i = 2; i < lines.Length; i++) {
                     string[] tokens = lines[i].Split(' ');
@@ -25,10 +29,10 @@ namespace Lab2
 
                     list.Add(new DataItem
                     {
-                        t = Convert.ToSingle(tokens[0]),
-                        vec = new Vector3(Convert.ToSingle(coord[0]),
-                                           Convert.ToSingle(coord[1]),
-                                           Convert.ToSingle(coord[2]))
+                        t = Convert.ToSingle(tokens[0], cultureInfo_enUS),
+                        vec = new Vector3( Convert.ToSingle(coord[0], cultureInfo_enUS),
+                                           Convert.ToSingle(coord[1], cultureInfo_enUS),
+                                           Convert.ToSingle(coord[2], cultureInfo_enUS))
                     });
                 }
             } catch (Exception e) {
