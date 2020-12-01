@@ -64,17 +64,15 @@ namespace Lab2
 
         public int GetMaxAmount {
             get {
-                int amount1 = (from v1DataCollection in list.OfType<V1DataCollection>()
-                               where v1DataCollection.list.Count != 0
-                               select v1DataCollection
-                              ).Count();
+                int amount1 = ( from v1DataCollection in list.OfType<V1DataCollection>()
+                                select v1DataCollection.list.Count
+                              ).Max();
 
                 int amount2 = ( from v1DataOnGrid in list.OfType<V1DataOnGrid>()
-                                where v1DataOnGrid.grid.amount_of_nodes != 0
-                                select v1DataOnGrid
-                              ).Count();
+                                select v1DataOnGrid.grid.amount_of_nodes
+                              ).Max();
 
-                return amount1 + amount2;
+                return Math.Max(amount1, amount2);
             }
         }
         public IEnumerable<DataItem> GetSorted {
