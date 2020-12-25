@@ -20,12 +20,12 @@ namespace Lab3
                 foreach (var elem in v1MainCollection) {
                     Console.WriteLine(elem.ToLongString() + Environment.NewLine);
                 }
+                
+                Console.WriteLine(Environment.NewLine + "Changing V1Data Info property in the element with index 0:" + Environment.NewLine);
+                v1MainCollection[0].Info = "Something new";
 
                 Console.WriteLine(Environment.NewLine + "Changing element with index 1:" + Environment.NewLine);
                 v1MainCollection[1] = new V1DataCollection("New Element", new DateTime());
-
-                Console.WriteLine(Environment.NewLine + "Changing V1Data Info property in the element with index 0:" + Environment.NewLine);
-                v1MainCollection[0].Info = "Something new";
 
                 Console.WriteLine(Environment.NewLine + "Remove element with index 3:" + Environment.NewLine);
                 V1DataOnGrid item = new V1DataOnGrid("grid1", new DateTime(2008, 5, 1, 7, 30, 52), new Grid());
@@ -35,6 +35,10 @@ namespace Lab3
                 foreach(var elem in v1MainCollection) {
                     Console.WriteLine(elem.ToLongString() + Environment.NewLine);
                 }
+
+                Console.WriteLine("=====");
+                v1MainCollection[1].Info = "aa";
+                v1MainCollection[1].Info = "bb";
 
             } catch (Exception e) {
                 Console.WriteLine(e.Message);

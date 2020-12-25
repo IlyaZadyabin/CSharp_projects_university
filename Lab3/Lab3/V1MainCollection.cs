@@ -29,7 +29,9 @@ namespace Lab3
                         DataChanged(this, new DataChangedEventArgs(ChangeInfo.Replace, list[index].ToLongString()
                             + Environment.NewLine + "with " + value.ToLongString()));
                     }
+                    list[index].PropertyChanged -= DataChangesCollector;
                     list[index] = value;
+                    list[index].PropertyChanged += DataChangesCollector;
                 }
             }
         }
