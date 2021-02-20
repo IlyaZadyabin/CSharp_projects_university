@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\zilya\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\zilya\\.nuget\\packages"
+    ]
+  }
+}

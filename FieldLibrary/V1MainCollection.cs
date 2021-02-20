@@ -7,6 +7,12 @@ using System.Collections.Specialized;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Text.Json;
+using System.Security.Permissions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Xml.Serialization;
+using FluentAssertions.Formatting;
 
 namespace FieldLibrary
 {
@@ -32,15 +38,17 @@ namespace FieldLibrary
             }
         }
 
-        public void OnNotifyCollectionChanged(NotifyCollectionChangedEventArgs args) {
-            if (CollectionChanged != null)
-                CollectionChanged(this, args);
-        }
+        public void OnNotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs args) {
+            if (CollectionChanged != null) {
+                IsCollectionChanged = true;
+                //CollectionChanged(this, args);
+            }
+         }
 
         public delegate void NotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs args);
         public delegate void DataChangedEventHandler(object source, DataChangedEventArgs args);
 
-        public bool IsCollectionChanged;
+        public bool IsCollectionChanged = false;
 
         public void Save(string filename)
         {
@@ -50,13 +58,10 @@ namespace FieldLibrary
                 fileStream = File.Create(filename);
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Serialize(fileStream, this);
-                IsCollectionChanged = true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Save\n " + ex.Message);
                 IsCollectionChanged = false;
             }
+            catch (Exception ex)
+            { Console.WriteLine("Save\n " + ex.Message); }
             finally
             { if (fileStream != null) fileStream.Close(); }
         }
@@ -75,10 +80,11 @@ namespace FieldLibrary
             { Console.WriteLine("Load\n " + ex.Message); }
             finally
             { if (fileStream != null) fileStream.Close(); }
-            list = res.list;
+
+            if (res != null)
+                list = res.list;
         }
-    
-    
+
         public V1Data this[int index] {
             get { return list[index]; }
             set {
@@ -87,10 +93,14 @@ namespace FieldLibrary
                         DataChanged(this, new DataChangedEventArgs(ChangeInfo.Replace, list[index].ToLongString()
                             + Environment.NewLine + "with " + value.ToLongString()));
                     }
-                    OnNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, list[index], index));
+                    if (CollectionChanged != null)
+                        OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, list[index], index));
+
                     list[index].PropertyChanged -= DataChangesCollector;
                     list[index] = value;
                     list[index].PropertyChanged += DataChangesCollector;
+
+                    CollectionChanged += OnNotifyCollectionChanged;
                 }
             }
         }
@@ -106,7 +116,11 @@ namespace FieldLibrary
             if (DataChanged != null)
                 DataChanged(this, new DataChangedEventArgs(ChangeInfo.Add, item.ToLongString()));
             list[^1].PropertyChanged += DataChangesCollector;
-            OnNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+
+            if (CollectionChanged != null)
+                OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            CollectionChanged += OnNotifyCollectionChanged;
+            // list[^1].PropertyChanged += OnNotifyCollectionChanged;
         }
 
         public bool Remove(string id, DateTime dateTime) {
@@ -117,11 +131,14 @@ namespace FieldLibrary
                         item => (item.Info == id) && (item.Date == dateTime))
                     ) >= 0) {
                 list.ElementAt(idx).PropertyChanged -= DataChangesCollector;
+                CollectionChanged += OnNotifyCollectionChanged;
                 var elem = list.ElementAt(idx);
                 list.RemoveAt(idx);
                 if (DataChanged != null)
                     DataChanged(this, new DataChangedEventArgs(ChangeInfo.Remove, elem.ToLongString()));
-                OnNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, elem));
+
+                if (CollectionChanged != null)
+                    OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, elem));
             }
             return cnt_before_removal != list.Count;
         }
@@ -168,7 +185,22 @@ namespace FieldLibrary
             return GetEnumerator();
         }
 
-       
+        
+        //void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    info.AddValue("list", list, typeof(V1Data));
+        //}
+
+        
+        //public V1MainCollection(SerializationInfo info, StreamingContext streamingContext)
+        //{
+        //    list = (List<V1Data>)info.GetValue("list", typeof(List<V1Data>));
+        //}
+
+        public V1MainCollection()
+        {
+        }
+
         public int GetMaxAmount {
             get {
                 int amount1 = ( from v1DataCollection in list.OfType<V1DataCollection>()

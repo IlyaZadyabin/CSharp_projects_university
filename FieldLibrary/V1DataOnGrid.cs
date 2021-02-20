@@ -3,9 +3,16 @@ using System.Numerics;
 using System.Collections.Generic;
 using System.Collections;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace FieldLibrary
 {
+    [System.Serializable]
+    public class Vector3Ser
+    {
+        public float x,y,z;
+    }
+    [Serializable]
     public class V1DataOnGrid : V1Data, IEnumerable<DataItem>, ISerializable
     {
         public V1DataOnGrid(string info, DateTime date, Grid grid_) : base(info, date) {
@@ -82,8 +89,8 @@ namespace FieldLibrary
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("arr", arr);
-            info.AddValue("grid", grid);
+            info.AddValue("arr", SerializeVector3Array(arr), typeof(string));
+            info.AddValue("grid", grid, typeof(Grid));
             info.AddValue("info", Info);
             info.AddValue("date", Date);
         }
@@ -91,7 +98,36 @@ namespace FieldLibrary
             base(info.GetString("info"), info.GetDateTime("date"))
         {
             grid = (Grid)info.GetValue("grid", typeof(Grid));
-            arr = (Vector3[])info.GetValue("arr", typeof(Vector3[]));
+           arr = DeserializeVector3Array(info.GetString("arr"));
+        }
+
+        public static string SerializeVector3Array(Vector3[] aVectors)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (Vector3 v in aVectors)
+            {
+                sb.Append(v.X).Append(" ").Append(v.Y).Append(" ").Append(v.Z).Append("|");
+            }
+            if (sb.Length > 0) // remove last "|"
+                sb.Remove(sb.Length - 1, 1);
+            return sb.ToString();
+        }
+        public static Vector3[] DeserializeVector3Array(string aData)
+        {
+            if (aData.Length == 0)
+                return new Vector3[0];
+
+            string[] vectors = aData.Split('|');
+            Vector3[] result = new Vector3[vectors.Length];
+            
+            for (int i = 0; i < vectors.Length; i++)
+            {
+                string[] values = vectors[i].Split(' ');
+                //if (values.Length != 3)
+                //    throw new System.FormatException("component count mismatch. Expected 3 components but got " + values.Length);
+                result[i] = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+            }
+            return result;
         }
 
         public Grid grid { get; set; }

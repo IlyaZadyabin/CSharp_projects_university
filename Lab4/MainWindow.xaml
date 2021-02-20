@@ -7,6 +7,19 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Menu x:Name="Menu" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
+            <MenuItem Header="File">
+                <MenuItem Header="New" Click="New"></MenuItem>
+                <MenuItem Header="Open" Click="Open"></MenuItem>
+                <MenuItem Header="Save" Click="Save"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Edit" >
+                <MenuItem Header="Add Defaults" Click="AddDefaults"></MenuItem>
+                <MenuItem Header="Add Default V1DataCollection" Click="AddDefaultV1DataCollection"></MenuItem>
+                <MenuItem Header="Add Default V1DataOnGrid" Click="AddDefaultV1DataOnGrid"></MenuItem>
+                <MenuItem Header="Add Element from File" Click="AddElementFromFile"></MenuItem>
+                <MenuItem Header="Remove" Click="Remove"></MenuItem>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>

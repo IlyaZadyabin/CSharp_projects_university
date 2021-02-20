@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Numerics;
 using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace FieldLibrary
 {
     [Serializable]
-    public class V1DataCollection : V1Data, IEnumerable<DataItem> {
+    public class V1DataCollection : V1Data, IEnumerable<DataItem>, ISerializable
+    {
         public V1DataCollection(string str_, DateTime date_) : base(str_, date_) {}
 
         // info
@@ -16,7 +18,7 @@ namespace FieldLibrary
         // time x,y,z   en-US type
         // ...
         public V1DataCollection(string filename) : base("", new DateTime()) {
-            try {
+           // try {
                 CultureInfo cultureInfo_ruRU = new CultureInfo("ru-RU");
                 CultureInfo cultureInfo_enUS = new CultureInfo("en-US");
 
@@ -36,9 +38,9 @@ namespace FieldLibrary
                                            Convert.ToSingle(coord[2], cultureInfo_enUS))
                     });
                 }
-            } catch (Exception e) {
-                Console.WriteLine(e.Message);
-            }
+            //} catch (Exception e) {
+            //    Console.WriteLine(e.Message);
+            //}
         }
         public void InitRandom(int nItems, float tmin, float tmax, float minValue, float maxValue) {
             Random random = new System.Random();
@@ -91,6 +93,19 @@ namespace FieldLibrary
         }
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("list", list, typeof(List<DataItem>));
+            info.AddValue("info", Info);
+            info.AddValue("date", Date);
+        }
+        public V1DataCollection(SerializationInfo info, StreamingContext streamingContext) :
+            base(info.GetString("info"), info.GetDateTime("date"))
+        {
+            list = (List<DataItem>)info.GetValue("list", typeof(List<DataItem>));
+           
         }
         public List<DataItem> list { get; set; } = new List<DataItem>();
     }

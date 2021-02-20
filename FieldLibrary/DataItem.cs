@@ -12,6 +12,7 @@ namespace FieldLibrary
             vec = vec_;
         }
         public float t { get; set; }
+
         public Vector3 vec { get; set; }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

@@ -1,5 +1,8 @@
-﻿namespace FieldLibrary
+﻿using System;
+
+namespace FieldLibrary
 {
+    [Serializable]
     public struct Grid {
         public Grid(float t0_, float time_step_, int amount_of_nodes_) {
             t0 = t0_;

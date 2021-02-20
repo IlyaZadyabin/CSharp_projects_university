@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "mnqM3dQ00P0TAO47sd85HG6g1stvRdxiSgSqqTQKeNlbB0LRfbNlTvjhzm3s5FZOHGsc7i/4Qc1RDGnMF0nOTw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab_4.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\zilya\\.nuget\\packages\\fluentassertions\\5.10.3\\fluentassertions.5.10.3.nupkg.sha512",
+    "C:\\Users\\zilya\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\zilya\\.nuget\\packages\\system.configuration.configurationmanager\\4.4.0\\system.configuration.configurationmanager.4.4.0.nupkg.sha512",
+    "C:\\Users\\zilya\\.nuget\\packages\\system.security.cryptography.protecteddata\\4.4.0\\system.security.cryptography.protecteddata.4.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
