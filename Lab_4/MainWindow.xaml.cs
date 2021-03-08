@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,14 +30,13 @@ namespace Lab_4
         public V1MainCollection v1MainCollection { get; set; }
         public V1Data selectedCollection { get; set; }
 
-        private void v1DataCollectionFilter(object sender, FilterEventArgs e)
-        {
+        private void v1DataCollectionFilter(object sender, FilterEventArgs e) {
             e.Accepted = e.Item is V1DataCollection;
         }
-        //private void v1DataCollectionDetailsFilter(object sender, FilterEventArgs e)
-        //{
-        //    e.Accepted = e.Item is V1
-        //}
+
+        private void v1DataOnGridFilter(object sender, FilterEventArgs e) {
+            e.Accepted = e.Item is V1DataOnGrid;
+        }
 
         public MainWindow()
         {
@@ -54,15 +54,9 @@ namespace Lab_4
             v1MainCollection.IsCollectionChanged = true;
         }
 
-        private void New(object sender, RoutedEventArgs e)
-        {
-            if (IsDataLossWarningIgnored(sender, e))
-            {
+        private void New(object sender, RoutedEventArgs e) {
+            if (IsDataLossWarningIgnored(sender, e)) {
                 v1MainCollection.RemoveAll();
-                
-                
-                
-                //listBox_Main.Items.Refresh();
             }
         }
         private void Open(object sender, RoutedEventArgs e)
@@ -144,4 +138,63 @@ namespace Lab_4
             return true;
         }
     }
+    public class VecAbsValueConverter : IValueConverter
+    {
+        string text;
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            Vector3 vec = (Vector3)value;
+            text = "X: " + vec.X + " Y: " + vec.Y + " Z: " + vec.Z + " Length: " + vec.Length();
+            return text;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            return text;
+        }
+    }
+
+    public class FirstElemConverter : IValueConverter
+    {
+        string text;
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            V1DataOnGrid v1DataOnGrid = (V1DataOnGrid)value;
+            if (v1DataOnGrid != null)
+                return v1DataOnGrid.FirstOrDefault().ToString();
+            return "";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            return text;
+        }
+    }
+
+    public class LastElemConverter : IValueConverter
+    {
+        string text;
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            V1DataOnGrid v1DataOnGrid = (V1DataOnGrid)value;
+            if (v1DataOnGrid != null)
+                return v1DataOnGrid.ElementAtOrDefault(v1DataOnGrid.Count() - 1).ToString();
+            return "";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            return text;
+        }
+    }
+
 }

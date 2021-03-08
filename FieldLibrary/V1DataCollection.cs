@@ -105,7 +105,6 @@ namespace FieldLibrary
             base(info.GetString("info"), info.GetDateTime("date"))
         {
             list = (List<DataItem>)info.GetValue("list", typeof(List<DataItem>));
-           
         }
         public List<DataItem> list { get; set; } = new List<DataItem>();
     }

@@ -30,7 +30,7 @@ namespace FieldLibrary
         }
 
         public void InitRandom(float minValue, float maxValue) {
-            Random random = new System.Random();
+            Random random = new Random();
             float range = maxValue - minValue;
             for (int i = 0; i < grid.amount_of_nodes; i++)
             {
