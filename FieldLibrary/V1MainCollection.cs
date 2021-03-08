@@ -26,6 +26,7 @@ namespace FieldLibrary
     [Serializable]
     public class V1MainCollection : IEnumerable<V1Data>, INotifyCollectionChanged
     {
+        
         [field: NonSerialized]
         public event DataChangedEventHandler DataChanged;
 
@@ -38,12 +39,12 @@ namespace FieldLibrary
             }
         }
 
-        public void OnNotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs args) {
-            if (CollectionChanged != null) {
-                IsCollectionChanged = true;
-                //CollectionChanged(this, args);
-            }
-         }
+        //public void OnNotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs args) {
+        //    if (CollectionChanged != null) {
+        //        IsCollectionChanged = true;
+        //        CollectionChanged(this, args);
+        //    }
+        // }
 
         public delegate void NotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs args);
         public delegate void DataChangedEventHandler(object source, DataChangedEventArgs args);
@@ -94,13 +95,14 @@ namespace FieldLibrary
                             + Environment.NewLine + "with " + value.ToLongString()));
                     }
                     if (CollectionChanged != null)
-                        OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, list[index], index));
+                        //OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, list[index], index));
+                        CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, list[index], index));
 
                     list[index].PropertyChanged -= DataChangesCollector;
                     list[index] = value;
                     list[index].PropertyChanged += DataChangesCollector;
 
-                    CollectionChanged += OnNotifyCollectionChanged;
+                    //CollectionChanged += OnNotifyCollectionChanged;
                 }
             }
         }
@@ -118,30 +120,41 @@ namespace FieldLibrary
             list[^1].PropertyChanged += DataChangesCollector;
 
             if (CollectionChanged != null)
-                OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            CollectionChanged += OnNotifyCollectionChanged;
+                //OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            //CollectionChanged += OnNotifyCollectionChanged;
             // list[^1].PropertyChanged += OnNotifyCollectionChanged;
         }
 
         public bool Remove(string id, DateTime dateTime) {
             int cnt_before_removal = list.Count;
-            int idx = -1;
+            RemoveByPredicate(new Predicate<V1Data>(
+                    item => (item.Info == id) && (item.Date == dateTime)
+                ));
+            return cnt_before_removal != list.Count;
+        }
 
-            while ((idx = list.FindIndex(
-                        item => (item.Info == id) && (item.Date == dateTime))
-                    ) >= 0) {
+        public void RemoveAll() {
+            RemoveByPredicate(new Predicate<V1Data>(item => item == item));
+        }
+        private void RemoveByPredicate(Predicate<V1Data> predicate)
+        {
+            int idx = -1;
+            while ((idx = list.FindIndex(predicate)) >= 0)
+            {
                 list.ElementAt(idx).PropertyChanged -= DataChangesCollector;
-                CollectionChanged += OnNotifyCollectionChanged;
+                //CollectionChanged += OnNotifyCollectionChanged;
                 var elem = list.ElementAt(idx);
                 list.RemoveAt(idx);
                 if (DataChanged != null)
                     DataChanged(this, new DataChangedEventArgs(ChangeInfo.Remove, elem.ToLongString()));
 
                 if (CollectionChanged != null)
-                    OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, elem));
+                    //OnNotifyCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, elem));
+                    CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, elem, idx));
             }
-            return cnt_before_removal != list.Count;
         }
+
         public void AddDefaults() {
             DateTime time = new DateTime(2008, 5, 1, 8, 30, 52);
             Grid grid = new Grid(0, 1, 4);
@@ -203,13 +216,13 @@ namespace FieldLibrary
 
         public int GetMaxAmount {
             get {
-                int amount1 = ( from v1DataCollection in list.OfType<V1DataCollection>()
+                int amount1 = (from v1DataCollection in list.OfType<V1DataCollection>()
                                 select v1DataCollection.list.Count
-                              ).Max();
+                                ).DefaultIfEmpty(0).Max();
 
-                int amount2 = ( from v1DataOnGrid in list.OfType<V1DataOnGrid>()
+                int amount2 = (from v1DataOnGrid in list.OfType<V1DataOnGrid>()
                                 select v1DataOnGrid.grid.amount_of_nodes
-                              ).Max();
+                                ).DefaultIfEmpty(0).Max();
 
                 return Math.Max(amount1, amount2);
             }

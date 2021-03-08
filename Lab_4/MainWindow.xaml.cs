@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -24,18 +25,44 @@ namespace Lab_4
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int MaxAmountOfResults { get { return v1MainCollection.GetMaxAmount; } set { }  }
         public V1MainCollection v1MainCollection { get; set; }
+        public V1Data selectedCollection { get; set; }
+
+        private void v1DataCollectionFilter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = e.Item is V1DataCollection;
+        }
+        //private void v1DataCollectionDetailsFilter(object sender, FilterEventArgs e)
+        //{
+        //    e.Accepted = e.Item is V1
+        //}
+
         public MainWindow()
         {
             v1MainCollection = new V1MainCollection();
             InitializeComponent();
+
+            ((INotifyCollectionChanged)listBox_Main.Items).CollectionChanged += ListBox_CollectionChanged;
+
             DataContext = this;
         }
+
+        private void ListBox_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Property.GetBindingExpression(TextBlock.TextProperty).UpdateTarget();
+            v1MainCollection.IsCollectionChanged = true;
+        }
+
         private void New(object sender, RoutedEventArgs e)
         {
             if (IsDataLossWarningIgnored(sender, e))
             {
-                v1MainCollection = new V1MainCollection();
+                v1MainCollection.RemoveAll();
+                
+                
+                
+                //listBox_Main.Items.Refresh();
             }
         }
         private void Open(object sender, RoutedEventArgs e)
@@ -72,7 +99,7 @@ namespace Lab_4
         private void AddDefaultV1DataOnGrid(object sender, RoutedEventArgs e)
         {
             FieldLibrary.Grid grid = new FieldLibrary.Grid(0, 1, 4);
-            V1DataOnGrid v1DataOnGrid = new V1DataOnGrid("grid_def", new DateTime(2007, 4, 1, 6, 30, 61), grid);
+            V1DataOnGrid v1DataOnGrid = new V1DataOnGrid("grid_def", new DateTime(2008, 6, 1, 7, 47, 0), grid);
             v1DataOnGrid.InitRandom(4, 10);
             v1MainCollection.Add(v1DataOnGrid);
         }
@@ -88,7 +115,15 @@ namespace Lab_4
         }
         private void Remove(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Remove");
+            if (selectedCollection != null) {
+                try {
+                    v1MainCollection.Remove(selectedCollection.Info, selectedCollection.Date);
+                } catch (Exception exception) {
+                    MessageBox.Show("Error occured: " + exception.Message);
+                }
+            } else {
+                MessageBox.Show("Nothing is selected");
+            }
         }
         private void Window_Closing(object sender, CancelEventArgs e)
         {
@@ -97,7 +132,7 @@ namespace Lab_4
         }
         private bool IsDataLossWarningIgnored(object sender, RoutedEventArgs e)
         {
-            if (v1MainCollection.IsCollectionChanged)
+            if (v1MainCollection != null && v1MainCollection.IsCollectionChanged)
             {
                 MessageBoxResult result = MessageBox.Show("You're risking to lose data. Would you like to save your collection?", "Warning", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
