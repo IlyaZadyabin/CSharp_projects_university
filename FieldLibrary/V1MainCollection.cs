@@ -198,18 +198,6 @@ namespace FieldLibrary
             return GetEnumerator();
         }
 
-        
-        //void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        //{
-        //    info.AddValue("list", list, typeof(V1Data));
-        //}
-
-        
-        //public V1MainCollection(SerializationInfo info, StreamingContext streamingContext)
-        //{
-        //    list = (List<V1Data>)info.GetValue("list", typeof(List<V1Data>));
-        //}
-
         public V1MainCollection()
         {
         }

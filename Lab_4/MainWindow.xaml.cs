@@ -165,8 +165,10 @@ namespace Lab_4
             System.Globalization.CultureInfo culture)
         {
             V1DataOnGrid v1DataOnGrid = (V1DataOnGrid)value;
-            if (v1DataOnGrid != null)
+            if (v1DataOnGrid != null && v1DataOnGrid.Count() > 0)
+            {
                 return v1DataOnGrid.FirstOrDefault().ToString();
+            }
             return "";
         }
 
@@ -185,7 +187,7 @@ namespace Lab_4
             System.Globalization.CultureInfo culture)
         {
             V1DataOnGrid v1DataOnGrid = (V1DataOnGrid)value;
-            if (v1DataOnGrid != null)
+            if (v1DataOnGrid != null && v1DataOnGrid.Count() > 0)
                 return v1DataOnGrid.ElementAtOrDefault(v1DataOnGrid.Count() - 1).ToString();
             return "";
         }

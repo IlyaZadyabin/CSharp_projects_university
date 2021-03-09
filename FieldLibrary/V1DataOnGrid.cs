@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FieldLibrary
 {
-    [System.Serializable]
+    [Serializable]
     public class Vector3Ser
     {
         public float x,y,z;
@@ -61,7 +61,7 @@ namespace FieldLibrary
         }
 
         public override string ToLongString() {
-            string str = this.ToString() + Environment.NewLine;
+            string str = ToString() + Environment.NewLine;
 
             for (int i = 0; i < grid.amount_of_nodes; i++) {
                 str += "Time: " + (grid.t0 + grid.time_step * i).ToString() + " " + arr[i].ToString() + Environment.NewLine;
@@ -98,7 +98,7 @@ namespace FieldLibrary
             base(info.GetString("info"), info.GetDateTime("date"))
         {
             grid = (Grid)info.GetValue("grid", typeof(Grid));
-           arr = DeserializeVector3Array(info.GetString("arr"));
+            arr = DeserializeVector3Array(info.GetString("arr"));
         }
 
         public static string SerializeVector3Array(Vector3[] aVectors)

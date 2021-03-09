@@ -65,16 +65,16 @@
 
 
         <ListBox x:Name="listBox_DataOnGrid" ItemsSource="{Binding Source={StaticResource v1DataOnGridSource}}" Margin="497,263,675,173" Grid.Row="1"/>
-        <ListBox x:Name="listbox_GridDetails" 
+        <!--<ListBox x:Name="listbox_GridDetails" 
                   ItemsSource="{Binding SelectedItem, ElementName=listBox_DataOnGrid}"
-                  Grid.Row="1" Margin="833,263,301,173"/>
+                  Grid.Row="1" Margin="833,263,301,173"/>-->
 
         <TextBlock x:Name="Property" HorizontalAlignment="Left" Margin="390,336,0,0" Text="{Binding v1MainCollection.GetMaxAmount, UpdateSourceTrigger=Explicit}" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="107" Grid.Row="1"/>
         <TextBlock HorizontalAlignment="Left" Margin="49,329,0,0" Grid.Row="1" Text="Maximum amount of field measurements: " TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
         <TextBlock Text="{Binding SelectedItem, ElementName=listBox_DataOnGrid, Converter={StaticResource FirstElemConverter}}"
-            HorizontalAlignment="Left" Margin="1226,263,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="67" Width="193"/>
+            HorizontalAlignment="Left" Margin="853,263,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="252"/>
         <TextBlock Text="{Binding SelectedItem, ElementName=listBox_DataOnGrid, Converter={StaticResource LastElemConverter}}"
-            HorizontalAlignment="Left" Margin="1226,416,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="82" Width="186"/>
+            HorizontalAlignment="Left" Margin="853,0,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Height="38" Width="252"/>
 
     </Grid>
 </Window>
