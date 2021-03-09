@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab4_WPF.csproj": {}
+    "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab4_WPF\\Lab4_WPF.csproj": {}
   },
   "projects": {
     "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\FieldLibrary\\FieldLibrary.csproj": {
@@ -68,14 +68,14 @@
         }
       }
     },
-    "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab4_WPF.csproj": {
+    "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab4_WPF\\Lab4_WPF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab4_WPF.csproj",
+        "projectUniqueName": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab4_WPF\\Lab4_WPF.csproj",
         "projectName": "Lab4_WPF",
-        "projectPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab4_WPF.csproj",
+        "projectPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab4_WPF\\Lab4_WPF.csproj",
         "packagesPath": "C:\\Users\\zilya\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\obj\\",
+        "outputPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab4_WPF\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\zilya\\AppData\\Roaming\\NuGet\\NuGet.Config",
