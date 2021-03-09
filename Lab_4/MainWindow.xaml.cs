@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using FieldLibrary;
 using Microsoft.Win32;
 
@@ -42,16 +30,7 @@ namespace Lab_4
         {
             v1MainCollection = new V1MainCollection();
             InitializeComponent();
-
-            ((INotifyCollectionChanged)listBox_Main.Items).CollectionChanged += ListBox_CollectionChanged;
-
             DataContext = this;
-        }
-
-        private void ListBox_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            Property.GetBindingExpression(TextBlock.TextProperty).UpdateTarget();
-            v1MainCollection.IsCollectionChanged = true;
         }
 
         private void New(object sender, RoutedEventArgs e) {
@@ -59,16 +38,12 @@ namespace Lab_4
                 v1MainCollection.RemoveAll();
             }
         }
-        private void Open(object sender, RoutedEventArgs e)
-        {
-            if (IsDataLossWarningIgnored(sender, e))
-            {
+        private void Open(object sender, RoutedEventArgs e) {
+            if (IsDataLossWarningIgnored(sender, e)) {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
 
-                if (openFileDialog.ShowDialog() == true)
-                {
+                if (openFileDialog.ShowDialog() == true) {
                     v1MainCollection.Load(openFileDialog.FileName);
-                    //txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
                 }
             }
             
@@ -92,7 +67,7 @@ namespace Lab_4
         }
         private void AddDefaultV1DataOnGrid(object sender, RoutedEventArgs e)
         {
-            FieldLibrary.Grid grid = new FieldLibrary.Grid(0, 1, 4);
+            Grid grid = new Grid(0, 1, 4);
             V1DataOnGrid v1DataOnGrid = new V1DataOnGrid("grid_def", new DateTime(2008, 6, 1, 7, 47, 0), grid);
             v1DataOnGrid.InitRandom(4, 10);
             v1MainCollection.Add(v1DataOnGrid);

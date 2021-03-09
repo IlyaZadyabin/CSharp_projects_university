@@ -18,29 +18,25 @@ namespace FieldLibrary
         // time x,y,z   en-US type
         // ...
         public V1DataCollection(string filename) : base("", new DateTime()) {
-           // try {
-                CultureInfo cultureInfo_ruRU = new CultureInfo("ru-RU");
-                CultureInfo cultureInfo_enUS = new CultureInfo("en-US");
+            CultureInfo cultureInfo_ruRU = new CultureInfo("ru-RU");
+            CultureInfo cultureInfo_enUS = new CultureInfo("en-US");
 
-                string[] lines = System.IO.File.ReadAllLines(filename);
-                Info = lines[0];
-                Date = Convert.ToDateTime(lines[1], cultureInfo_ruRU);
+            string[] lines = System.IO.File.ReadAllLines(filename);
+            Info = lines[0];
+            Date = Convert.ToDateTime(lines[1], cultureInfo_ruRU);
 
-                for (int i = 2; i < lines.Length; i++) {
-                    string[] tokens = lines[i].Split(' ');
-                    string[] coord = tokens[1].Split(',');
+            for (int i = 2; i < lines.Length; i++) {
+                string[] tokens = lines[i].Split(' ');
+                string[] coord = tokens[1].Split(',');
 
-                    list.Add(new DataItem
-                    {
-                        t = Convert.ToSingle(tokens[0], cultureInfo_enUS),
-                        vec = new Vector3( Convert.ToSingle(coord[0], cultureInfo_enUS),
-                                           Convert.ToSingle(coord[1], cultureInfo_enUS),
-                                           Convert.ToSingle(coord[2], cultureInfo_enUS))
-                    });
-                }
-            //} catch (Exception e) {
-            //    Console.WriteLine(e.Message);
-            //}
+                list.Add(new DataItem
+                {
+                    t = Convert.ToSingle(tokens[0], cultureInfo_enUS),
+                    vec = new Vector3( Convert.ToSingle(coord[0], cultureInfo_enUS),
+                                        Convert.ToSingle(coord[1], cultureInfo_enUS),
+                                        Convert.ToSingle(coord[2], cultureInfo_enUS))
+                });
+            }
         }
         public void InitRandom(int nItems, float tmin, float tmax, float minValue, float maxValue) {
             Random random = new System.Random();

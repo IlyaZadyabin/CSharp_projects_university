@@ -8,11 +8,6 @@ using System.Text;
 namespace FieldLibrary
 {
     [Serializable]
-    public class Vector3Ser
-    {
-        public float x,y,z;
-    }
-    [Serializable]
     public class V1DataOnGrid : V1Data, IEnumerable<DataItem>, ISerializable
     {
         public V1DataOnGrid(string info, DateTime date, Grid grid_) : base(info, date) {
@@ -123,8 +118,6 @@ namespace FieldLibrary
             for (int i = 0; i < vectors.Length; i++)
             {
                 string[] values = vectors[i].Split(' ');
-                //if (values.Length != 3)
-                //    throw new System.FormatException("component count mismatch. Expected 3 components but got " + values.Length);
                 result[i] = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
             }
             return result;
