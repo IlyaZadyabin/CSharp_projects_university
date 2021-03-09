@@ -213,9 +213,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab_4.csproj",
-      "projectName": "Lab_4",
-      "projectPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab_4.csproj",
+      "projectUniqueName": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab4_WPF.csproj",
+      "projectName": "Lab4_WPF",
+      "projectPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\Lab4_WPF.csproj",
       "packagesPath": "C:\\Users\\zilya\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\zilya\\Documents\\GitHub\\MSU_projects\\Lab_4\\obj\\",
       "projectStyle": "PackageReference",

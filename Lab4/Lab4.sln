@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FieldLibrary", "..\FieldLibrary\FieldLibrary.csproj", "{B0494F30-682F-4470-BD2C-11C17EAF47BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab_4", "..\Lab_4\Lab_4.csproj", "{1ED8206A-4D8E-45E5-BEF3-D7DFA2426718}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab4_WPF", "..\Lab_4\Lab4_WPF.csproj", "{1ED8206A-4D8E-45E5-BEF3-D7DFA2426718}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
