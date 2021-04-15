@@ -9,6 +9,20 @@
         Title="MainWindow" Height="700" Width="1500"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
 
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Save"
+                CanExecute="CanSaveCommandHandler"
+                Executed="SaveCommandHandler" />
+        <CommandBinding Command="ApplicationCommands.Open"
+                Executed="OpenCommandHandler" />
+        <CommandBinding Command="ApplicationCommands.Delete"
+                CanExecute="CanDeleteCommandHandler"
+                Executed="DeleteCommandHandler" />
+        <CommandBinding Command="{x:Static local:MainWindow.AddCustomCommand}"
+                Executed="AddCustomCommandHandler"
+                CanExecute="CanAddCustomCommandHandler" />
+    </Window.CommandBindings>
+
     <Window.Resources>
         <local:VecAbsValueConverter x:Key="VecAbsValueConverter" />
         <local:FirstElemConverter x:Key="FirstElemConverter" />
@@ -30,6 +44,18 @@
                 <TextBlock Text="{Binding Path=vec, Converter={StaticResource LastElemConverter}}" />
             </StackPanel>
         </DataTemplate>
+
+        <Style x:Key="Style_Error" >
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="Control.ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)/ErrorContent}"/>
+                    <Setter Property="Control.Foreground" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
 
     <Grid>
@@ -42,36 +68,59 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="213*"/>
         </Grid.RowDefinitions>
-        <Menu x:Name="Menu" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="74" Grid.RowSpan="2">
+        <Menu x:Name="Menu" HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="228" Grid.RowSpan="2">
             <MenuItem Header="File">
-                <MenuItem Header="New" Click="New"></MenuItem>
-                <MenuItem Header="Open" Click="Open"></MenuItem>
-                <MenuItem Header="Save" Click="Save"></MenuItem>
+                <MenuItem Header="New" Click="New"/>
+                <MenuItem Header="Open" Command="ApplicationCommands.Open" CommandParameter="From MenuItem"/>
+                <MenuItem Header="Save" Command="ApplicationCommands.Save" CommandParameter="From MenuItem"/>
             </MenuItem>
             <MenuItem Header="Edit" >
                 <MenuItem Header="Add Defaults" Click="AddDefaults"></MenuItem>
                 <MenuItem Header="Add Default V1DataCollection" Click="AddDefaultV1DataCollection"></MenuItem>
                 <MenuItem Header="Add Default V1DataOnGrid" Click="AddDefaultV1DataOnGrid"></MenuItem>
                 <MenuItem Header="Add Element from File" Click="AddElementFromFile"></MenuItem>
-                <MenuItem Header="Remove" Click="Remove"></MenuItem>
+                <MenuItem Header="Remove" Command="ApplicationCommands.Delete" CommandParameter="From MenuItem"/>
             </MenuItem>
+            <MenuItem Header="Add Custom V1DataOnGrid" Command="{x:Static local:MainWindow.AddCustomCommand}"/>
         </Menu>
 
-        <ListBox x:Name="listBox_Main" Margin="49,13,1015,423" Grid.Row="1" ItemsSource="{Binding v1MainCollection, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding selectedCollection, Mode=TwoWay}"/>
+        <ListBox x:Name="listBox_Main" Margin="308,23,756,413" Grid.Row="1" ItemsSource="{Binding v1MainCollection, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding selectedCollection, Mode=TwoWay}"/>
 
-        <ListBox x:Name="listBox_DataCollection" Margin="497,13,675,423" ItemsSource="{Binding Source={StaticResource v1DataCollectionSource}}" Grid.Row="1" />
-        <ListBox x:Name="listBox_details" Margin="833,13,301,423" ItemsSource="{Binding SelectedItem, ElementName=listBox_DataCollection}" 
+        <ListBox x:Name="listBox_DataCollection" Margin="764,22,408,414" ItemsSource="{Binding Source={StaticResource v1DataCollectionSource}}" Grid.Row="1" />
+        <ListBox x:Name="listBox_details" Margin="1105,22,29,413" ItemsSource="{Binding SelectedItem, ElementName=listBox_DataCollection}" 
                  ItemTemplate="{StaticResource DataItemTemplate}" Grid.Row="1" />
 
 
-        <ListBox x:Name="listBox_DataOnGrid" ItemsSource="{Binding Source={StaticResource v1DataOnGridSource}}" Margin="497,263,675,173" Grid.Row="1"/>
+        <ListBox x:Name="listBox_DataOnGrid" ItemsSource="{Binding Source={StaticResource v1DataOnGridSource}}" Margin="764,281,407,155" Grid.Row="1"/>
 
-        <TextBlock x:Name="Property" HorizontalAlignment="Left" Margin="390,336,0,0" Text="{Binding v1MainCollection.GetMaxAmount, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="107" Grid.Row="1"/>
-        <TextBlock HorizontalAlignment="Left" Margin="49,329,0,0" Grid.Row="1" Text="Maximum amount of field measurements: " TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
+        <TextBlock x:Name="Property" HorizontalAlignment="Left" Margin="649,337,0,0" Text="{Binding v1MainCollection.GetMaxAmount, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="107" Grid.Row="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="308,330,0,0" Grid.Row="1" Text="Maximum amount of field measurements: " TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
         <TextBlock Text="{Binding SelectedItem, ElementName=listBox_DataOnGrid, Converter={StaticResource FirstElemConverter}}"
-            HorizontalAlignment="Left" Margin="853,263,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="252"/>
+            HorizontalAlignment="Left" Margin="1105,281,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="252"/>
         <TextBlock Text="{Binding SelectedItem, ElementName=listBox_DataOnGrid, Converter={StaticResource LastElemConverter}}"
-            HorizontalAlignment="Left" Margin="853,0,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Height="38" Width="252"/>
+            HorizontalAlignment="Left" Margin="1105,323,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" Width="252"/>
 
+
+        <Grid x:Name="Add_Custom_Grid" Grid.Row="1" Margin="19,23,1255,435" DataContext="{Binding customV1DataOnGrid}">
+            <TextBlock HorizontalAlignment="Left" Margin="4,22,0,0" Text="Custom V1DataOnGrid:" TextWrapping="Wrap" VerticalAlignment="Top" Width="134" Height="21"/>
+            <TextBox Style="{StaticResource Style_Error}" x:Name="V1Data_info" HorizontalAlignment="Left" Margin="123,58,0,0" Text="{Binding Info, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, 
+    NotifyOnValidationError=True}" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" Height="19"/>
+            <TextBox Style="{StaticResource Style_Error}" x:Name="Amount_of_nodes" HorizontalAlignment="Left" Margin="123,88,0,0" Text="{Binding Amount_of_nodes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, 
+    NotifyOnValidationError=True}" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" Height="19"/>
+            <TextBox Style="{StaticResource Style_Error}" x:Name="minValue" HorizontalAlignment="Left" Margin="123,157,0,0" Text="{Binding MinValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, 
+    NotifyOnValidationError=True}" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" Height="19"/>
+            <TextBox Style="{StaticResource Style_Error}" x:Name="maxValue" HorizontalAlignment="Left" Margin="123,123,0,0" Text="{Binding MaxValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, 
+    NotifyOnValidationError=True}" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" Height="19"/>
+            <TextBlock HorizontalAlignment="Left" Margin="4,58,0,0" Text="Info:" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Height="19"/>
+            <TextBlock HorizontalAlignment="Left" Margin="4,88,0,0" Text="Amount of nodes:" TextWrapping="Wrap" VerticalAlignment="Top" Width="101" Height="17"/>
+            <TextBlock HorizontalAlignment="Left" Margin="4,123,0,0" Text="Max Value:" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Height="19"/>
+            <TextBlock HorizontalAlignment="Left" Margin="4,157,0,0" Text="Min Value:" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Height="19"/>
+        </Grid>
+        <ToolBar HorizontalAlignment="Left" Height="31" Margin="14,245,0,0" Grid.Row="1" VerticalAlignment="Top" Width="223">
+            <Button Command="ApplicationCommands.Open" Content="Open" CommandParameter="From Button"/>
+            <Button Command="ApplicationCommands.Save" Content="Save" CommandParameter="From Button"/>
+            <Button Command="{x:Static local:MainWindow.AddCustomCommand}" Content="Add custom" />
+            <Button Command="ApplicationCommands.Delete" Content="Remove" CommandParameter="From Button"/>
+        </ToolBar>
     </Grid>
 </Window>

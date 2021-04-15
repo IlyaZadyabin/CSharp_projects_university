@@ -2,7 +2,6 @@ C:\Users\zilya\Documents\GitHub\MSU_projects\FieldLibrary\bin\Debug\net5.0\Field
 C:\Users\zilya\Documents\GitHub\MSU_projects\FieldLibrary\bin\Debug\net5.0\FieldLibrary.dll
 C:\Users\zilya\Documents\GitHub\MSU_projects\FieldLibrary\bin\Debug\net5.0\ref\FieldLibrary.dll
 C:\Users\zilya\Documents\GitHub\MSU_projects\FieldLibrary\bin\Debug\net5.0\FieldLibrary.pdb
-C:\Users\zilya\Documents\GitHub\MSU_projects\FieldLibrary\obj\Debug\net5.0\FieldLibrary.csprojAssemblyReference.cache
 C:\Users\zilya\Documents\GitHub\MSU_projects\FieldLibrary\obj\Debug\net5.0\FieldLibrary.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\zilya\Documents\GitHub\MSU_projects\FieldLibrary\obj\Debug\net5.0\FieldLibrary.AssemblyInfoInputs.cache
 C:\Users\zilya\Documents\GitHub\MSU_projects\FieldLibrary\obj\Debug\net5.0\FieldLibrary.AssemblyInfo.cs
